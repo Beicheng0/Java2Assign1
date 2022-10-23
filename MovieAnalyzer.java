@@ -105,31 +105,30 @@ public class MovieAnalyzer {
         return countGenre1;
     }
   public  Map<List<String>, Integer> getCoStarCount(){
-        Map<List<String>, Integer> CoStarCount = new LinkedHashMap<>();
-        List<String> CoStar = new ArrayList<>();
-        List<List<String>> sumStar = new ArrayList<>();
+    Map<List<String>, Integer> CoStarCount = new LinkedHashMap<>();
+    List<String> CoStar = new ArrayList<>();
+    List<List<String>> sumStar = new ArrayList<>();
 
-        for (int i = 0; i < name.size(); i++) {
-            CoStar.add(Star1.get(i));CoStar.add(Star2.get(i));CoStar.sort(Comparator.naturalOrder());sumStar.add(CoStar);CoStar = new ArrayList<>();
-            CoStar.add(Star1.get(i));CoStar.add(Star3.get(i));CoStar.sort(Comparator.naturalOrder());sumStar.add(CoStar);CoStar = new ArrayList<>();
-            CoStar.add(Star1.get(i));CoStar.add(Star4.get(i));CoStar.sort(Comparator.naturalOrder());sumStar.add(CoStar);CoStar = new ArrayList<>();
-            CoStar.add(Star2.get(i));CoStar.add(Star3.get(i));CoStar.sort(Comparator.naturalOrder());sumStar.add(CoStar);CoStar = new ArrayList<>();
-            CoStar.add(Star2.get(i));CoStar.add(Star4.get(i));CoStar.sort(Comparator.naturalOrder());sumStar.add(CoStar);CoStar = new ArrayList<>();
-            CoStar.add(Star3.get(i));CoStar.add(Star4.get(i));CoStar.sort(Comparator.naturalOrder());sumStar.add(CoStar);CoStar = new ArrayList<>();
+    for (int i = 0; i < name.size(); i++) {
+      CoStar.add(Star1.get(i));CoStar.add(Star2.get(i));if (!Objects.equals(CoStar.get(0), "") && !Objects.equals(CoStar.get(1), ""))CoStar.sort(Comparator.naturalOrder());sumStar.add(CoStar);CoStar = new ArrayList<>();
+      CoStar.add(Star1.get(i));CoStar.add(Star3.get(i));if (!Objects.equals(CoStar.get(0), "") && !Objects.equals(CoStar.get(1), ""))CoStar.sort(Comparator.naturalOrder());sumStar.add(CoStar);CoStar = new ArrayList<>();
+      CoStar.add(Star1.get(i));CoStar.add(Star4.get(i));if (!Objects.equals(CoStar.get(0), "") && !Objects.equals(CoStar.get(1), ""))CoStar.sort(Comparator.naturalOrder());sumStar.add(CoStar);CoStar = new ArrayList<>();
+      CoStar.add(Star2.get(i));CoStar.add(Star3.get(i));if (!Objects.equals(CoStar.get(0), "") && !Objects.equals(CoStar.get(1), ""))CoStar.sort(Comparator.naturalOrder());sumStar.add(CoStar);CoStar = new ArrayList<>();
+      CoStar.add(Star2.get(i));CoStar.add(Star4.get(i));if (!Objects.equals(CoStar.get(0), "") && !Objects.equals(CoStar.get(1), ""))CoStar.sort(Comparator.naturalOrder());sumStar.add(CoStar);CoStar = new ArrayList<>();
+      CoStar.add(Star3.get(i));CoStar.add(Star4.get(i));if (!Objects.equals(CoStar.get(0), "") && !Objects.equals(CoStar.get(1), ""))CoStar.sort(Comparator.naturalOrder());sumStar.add(CoStar);CoStar = new ArrayList<>();
+    }
+    for (int i = 0; i < sumStar.size(); i++) {
+      for (int j = i + 1; j <sumStar.size() - i ; j++) {
+        if (Objects.equals(sumStar.get(i).get(0), sumStar.get(j).get(0)) && Objects.equals(sumStar.get(i).get(1), sumStar.get(j).get(1))){
+          sumStar.set(i,sumStar.get(j));
         }
-        for (int i = 0; i < sumStar.size(); i++) {
-            for (int j = i + 1; j <sumStar.size() - i ; j++) {
-                if (Objects.equals(sumStar.get(i).get(0), sumStar.get(j).get(0)) && Objects.equals(sumStar.get(i).get(1), sumStar.get(j).get(1))){
-                    sumStar.set(i,sumStar.get(j));
-                }
-            }
-        }
-        sumStar.stream().collect(Collectors.groupingBy(Function.identity(),Collectors.counting())).entrySet().stream().sorted(Map.Entry.<List<String>, Long>comparingByValue().reversed()
+      }
+    }
+    sumStar.stream().collect(Collectors.groupingBy(Function.identity(),Collectors.counting())).entrySet().stream().sorted(Map.Entry.<List<String>, Long>comparingByValue().reversed()
                 ).forEachOrdered(e ->{
-                    CoStarCount.put(e.getKey(),e.getValue().intValue());
-        });
-        System.out.println(CoStarCount);
-        return CoStarCount;
+                    CoStarCount.put(e.getKey(),e.getValue().intValue());});
+//    System.out.println(CoStarCount);
+    return CoStarCount;
     }
   public  List<String> getTopMovies(int top_k, String by){
         List<String> TopMovies = new ArrayList<>();
@@ -163,12 +162,12 @@ public class MovieAnalyzer {
                 TopMovies.add(e.getKey());
             });
         }
-        for (int i = 0; i < top_k; i++) {
-            System.out.println(TopMovies.get(i));
-        }
+//        for (int i = 0; i < top_k; i++) {
+//            System.out.println(TopMovies.get(i));
+//        }
         return TopMovies.subList(0,top_k);
     }
-  public  List<String> getTopStars(int top_k, String by) {
+  public   List<String> getTopStars(int top_k, String by) {
           List<String> TopStars = new ArrayList<>();
           if (Objects.equals(by, "rating")){
               Map<String, List<Float>> rating = new LinkedHashMap<>();
